@@ -6,28 +6,35 @@ public class Spawn : MonoBehaviour
 {
     public float maxtime = 2f;
     float timer;
+    public DragonController thePlayer;
     public GameObject Flame;
     public float speed = 20;
     GameObject newflame;
-    private Vector2 random;
+    private float SpawnTime;
+    private Vector2 lastPlayerPosition;
+
     // Update is called once per frame
-
-
-
-    private void Update()
-    {
-
-        random = new Vector2(Random.Range(9f, 12f), -4f);
+    private void Update(){
+    
+        thePlayer = FindObjectOfType<DragonController>();
+        lastPlayerPosition = thePlayer.transform.position;
+        //random = new Vector3(10f, -4f, 0);
+        float random = Random.Range(30, 40);
         timer += Time.deltaTime;
+
 
         if (timer > maxtime)
         {
-            
-            GameObject newflame = Instantiate(Flame, random, transform.rotation);
+            // Instanciar una nueva flama con la rotación en z para que voltee de lado del jugador
+            GameObject newflame = Instantiate(Flame, new Vector2 (lastPlayerPosition.x + random, lastPlayerPosition.y) , Quaternion.Euler(0, 0, -180)); 
             timer = 0;
-            Destroy(newflame, 5f);
+            // Destruir clon
+            Destroy(newflame, 8);
         }
-        Destroy(newflame, 4f);
 
     }
+    /*
+    void Spawn () {
+        float x = R;
+    }*/
 }
